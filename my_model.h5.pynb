@@ -1,0 +1,55 @@
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# Carregue o conjunto de dados (por exemplo, o MNIST)
+(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+
+# Normalize os dados de entrada
+x_train = x_train.astype("float32") / 255.0
+x_test = x_test.astype("float32") / 255.0
+
+# Defina a arquitetura da rede neural
+model = keras.Sequential(
+    [
+        layers.Flatten(input_shape=(28, 28)),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(10),
+    ]
+)
+
+# Compile o modelo
+model.compile(optimizer="adam", loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=["accuracy"])
+
+# Treine o modelo
+model.fit(x_train, y_train, epochs=10, validation_data=(x_test, y_test))
+
+# Avalie o modelo
+test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
+print("Test accuracy:", test_acc)
+
+
+Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
+11490434/11490434 [==============================] - 1s 0us/step
+Epoch 1/10
+1875/1875 [==============================] - 16s 8ms/step - loss: 0.2657 - accuracy: 0.9240 - val_loss: 0.1521 - val_accuracy: 0.9546
+Epoch 2/10
+1875/1875 [==============================] - 7s 4ms/step - loss: 0.1169 - accuracy: 0.9652 - val_loss: 0.0996 - val_accuracy: 0.9704
+Epoch 3/10
+1875/1875 [==============================] - 8s 4ms/step - loss: 0.0801 - accuracy: 0.9756 - val_loss: 0.0899 - val_accuracy: 0.9721
+Epoch 4/10
+1875/1875 [==============================] - 8s 4ms/step - loss: 0.0587 - accuracy: 0.9818 - val_loss: 0.0793 - val_accuracy: 0.9747
+Epoch 5/10
+1875/1875 [==============================] - 7s 4ms/step - loss: 0.0454 - accuracy: 0.9855 - val_loss: 0.0790 - val_accuracy: 0.9765
+Epoch 6/10
+1875/1875 [==============================] - 8s 4ms/step - loss: 0.0369 - accuracy: 0.9880 - val_loss: 0.0759 - val_accuracy: 0.9768
+Epoch 7/10
+1875/1875 [==============================] - 7s 4ms/step - loss: 0.0282 - accuracy: 0.9911 - val_loss: 0.0844 - val_accuracy: 0.9748
+Epoch 8/10
+1875/1875 [==============================] - 8s 5ms/step - loss: 0.0233 - accuracy: 0.9927 - val_loss: 0.0739 - val_accuracy: 0.9791
+Epoch 9/10
+1875/1875 [==============================] - 8s 4ms/step - loss: 0.0195 - accuracy: 0.9941 - val_loss: 0.0853 - val_accuracy: 0.9755
+Epoch 10/10
+1875/1875 [==============================] - 7s 4ms/step - loss: 0.0160 - accuracy: 0.9947 - val_loss: 0.0813 - val_accuracy: 0.9780
+313/313 - 1s - loss: 0.0813 - accuracy: 0.9780 - 509ms/epoch - 2ms/step
+Test accuracy: 0.9779999852180481
